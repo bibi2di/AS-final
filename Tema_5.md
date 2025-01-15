@@ -94,3 +94,80 @@ spec:
 
 ###### Serverless:
 Ejecución de código sin definición infraestructura. P. ej: cloud run. 
+
+#### Ejercicio 1:
+Workflow:
+```
+name: Prueba Python
+
+on: push
+
+jobs:
+  test-python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar dependencia
+        run: pip install pytest
+      - name: Ejecutar pruebas
+        run: pytest test.py
+
+```
+#### Ejercicio 2:
+```
+suma.py
+def suma(a,b):
+    return a+b
+a=5
+b=6
+print(suma(a,b))
+
+name: Prueba Python
+
+on: push
+
+jobs:
+  test-python:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - uses: advanced-security/python-lint-code-scanning-action@v1
+        with:
+          linter: pylint
+```
+#### Ejercicio 3:
+```
+name: Run Tests on Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar dependencia
+        run: pip install pytest
+      - name: Ejecutar pruebas
+        run: pytest test.py
+
+name: Run tests on Pull Request
+
+on: pull_request
+
+jobs:
+  test-python:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - uses: advanced-security/python-lint-code-scanning-action@v1
+        with:
+          linter: pylint
+
+```
